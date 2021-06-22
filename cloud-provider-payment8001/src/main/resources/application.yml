@@ -11,6 +11,13 @@ spring:
     username: sonia
     password: 123456
 
+logging:
+  level:
+    com:
+      sonia:
+        springcloud:
+          dao: debug
+
 mybatis:
   mapperLocations: classpath:mapper/*.xml
   type-aliases-package: com.sonia.springcloud.entites
