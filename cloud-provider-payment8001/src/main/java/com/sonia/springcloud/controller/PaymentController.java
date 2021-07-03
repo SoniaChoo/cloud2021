@@ -1,8 +1,5 @@
 package com.sonia.springcloud.controller;
 
-import com.alibaba.druid.support.json.JSONUtils;
-import com.netflix.appinfo.InstanceInfo;
-import com.netflix.discovery.shared.Applications;
 import com.sonia.springcloud.entities.CommonResult;
 import com.sonia.springcloud.entities.Payment;
 import com.sonia.springcloud.service.PaymentService;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -31,21 +29,22 @@ public class PaymentController {
     public Object discovery() {
         List<String> services = discoveryClient.getServices();
         for (String service : services) {
-            log.info("service="+service);
+            log.info("service=" + service);
         }
         List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT_SERVICE");
         for (ServiceInstance instance : instances) {
-            log.info(instance.getServiceId()+"\t"+instance.getHost()+"\t"+instance.getPort()+"\t"+instance.getUri());
+            log.info(instance.getServiceId() + "\t" + instance.getHost() + "\t" + instance.getPort() + "\t" + instance.getUri());
         }
         return this.discoveryClient;
     }
+
     @PostMapping("/payment/create")
     public CommonResult create(@RequestBody Payment payment) {
         int result = paymentService.create(payment);
         log.info("***************payment={}", payment);
         log.info("***************result={}", result);
         if (result > 0) {
-            return new CommonResult(200, "insert success server port = "+serverPort, result);
+            return new CommonResult(200, "insert success server port = " + serverPort, result);
         } else {
             return new CommonResult(444, "insert fail");
         }
@@ -57,9 +56,19 @@ public class PaymentController {
         log.info("***************result={}", result);
         log.info("***************id={}", id);
         if (result != null) {
-            return new CommonResult(200,"query success server port = "+serverPort, result);
-        }else{
-            return new CommonResult(444,"query fail:id="+id);
+            return new CommonResult(200, "query success server port = " + serverPort, result);
+        } else {
+            return new CommonResult(444, "query fail:id=" + id);
         }
+    }
+
+    @GetMapping("/payment/getPaymentByIdTimeOut/{id}")
+    public String getPaymentByIdTimeOut(@PathVariable("id") Long id) {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 }

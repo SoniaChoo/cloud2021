@@ -18,10 +18,11 @@
         <module>cloud-consumerzk-order9001</module>
         <module>cloud-providerconsul-payment8006</module>
         <module>cloud-consumerconsul-order9001</module>
+        <module>cloud-consumer-openfeign-order9001</module>
     </modules>
     <packaging>pom</packaging>
 
-<!--tongyi guanli jar bao banben   -->
+    <!--tongyi guanli jar bao banben   -->
     <properties>
         <project.build.soruceEncoding>UTF-8</project.build.soruceEncoding>
         <maven.compiler.source>8</maven.compiler.source>

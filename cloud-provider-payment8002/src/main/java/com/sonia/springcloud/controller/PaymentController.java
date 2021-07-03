@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -24,7 +25,7 @@ public class PaymentController {
         log.info("***************payment={}", payment);
         log.info("***************result={}", result);
         if (result > 0) {
-            return new CommonResult(200, "insert success,server port = "+serverPort, result);
+            return new CommonResult(200, "insert success,server port = " + serverPort, result);
         } else {
             return new CommonResult(444, "insert fail");
         }
@@ -36,9 +37,19 @@ public class PaymentController {
         log.info("***************result={}", result);
         log.info("***************id={}", id);
         if (result != null) {
-            return new CommonResult(200, "query success,server port= "+serverPort, result);
+            return new CommonResult(200, "query success,server port= " + serverPort, result);
         } else {
             return new CommonResult(444, "query fail:id=" + id);
         }
+    }
+
+    @GetMapping("/payment/getPaymentByIdTimeOut/{id}")
+    public String getPaymentByIdTimeOut(@PathVariable("id") Long id) {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 }
