@@ -19,6 +19,9 @@
         <module>cloud-providerconsul-payment8006</module>
         <module>cloud-consumerconsul-order9001</module>
         <module>cloud-consumer-openfeign-order9001</module>
+        <module>cloud-provider-hystrix-payment8001</module>
+        <module>cloud-consumer-feign-hrstrix-order9001</module>
+        <module>cloud-consumer-hystrix-dashboard6001</module>
     </modules>
     <packaging>pom</packaging>
 
