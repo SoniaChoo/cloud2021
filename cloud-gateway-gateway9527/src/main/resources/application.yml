@@ -1,0 +1,34 @@
+server:
+  port: 9572
+
+spring:
+  application:
+    name: cliud-gateway-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: payment-route1
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/payment/get/**
+        #            - After=2021-07-05T22:46:57.219+08:00[Asia/Shanghai]
+        #            - Cookie=chocolate, ch.p
+        #            - Header=X-Request-Id,\d+
+        - id: payment-route2
+          uri: lb://cloud-payment-service
+          predicates:
+            - Path=/payment/lb/**
+
+eureka:
+  instance:
+    hostname: cloud-gateway-service
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka
+
+
