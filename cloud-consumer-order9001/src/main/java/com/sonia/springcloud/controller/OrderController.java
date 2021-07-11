@@ -59,4 +59,9 @@ public class OrderController {
             return new CommonResult<Payment>(entity.getStatusCode().value(),"query failed");
         }
     }
+
+    @GetMapping(value = "/orderZipkin")
+    public String orderZipkin() {
+        return restTemplate.getForObject(PAYMENT_URL+"/paymentZipkin",String.class);
+    }
 }
